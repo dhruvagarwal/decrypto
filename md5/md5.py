@@ -1,28 +1,22 @@
-import mechanize
-from BeautifulSoup import BeautifulSoup
+import sys
+import hashlib
 import xerox
-d={'e':'encrypt','d':'decrypt'}
-br=mechanize.Browser()
-br.set_handle_robots(False)
-ch=raw_input('Encrypt/Decrypt (e/d)? ')
-ch=ch.lower()
 
-br.open('http://www.md5online.org/md5-'+d[ch]+'.html')
-br.select_form(nr=0)
-br.form['md5']=raw_input('Enter text to '+d[ch]+' - ')
-response=br.submit()
-html=BeautifulSoup(''.join(response.read().split('\n')))
+def main():
+    try:
+        text = ""
+        if (len(sys.argv) == 1):
+            text = raw_input('Enter text -:\n')
+        else:
+            text = sys.argv[1]
+        	
+        text_hash = hashlib.md5(text).hexdigest()
+        print text_hash
+        	
+        xerox.copy(text_hash)
+        print 'Copied to clipboard!!'
+    except Exception as exception:
+        print "Error : {exception}".format(exception=exception.message)
 
-if ch=='d':
-	l=html.find('span',style="color:limegreen").b.string
-	print "Decrypted String is "+l
-	xerox.copy(l)
-	print 'Copied to ClipBoard!'
-elif ch=='e':
-	l=html.find('span',id="loading").b.string
-	print "Encrypted String is "+l
-	xerox.copy(l)
-	print 'Copied to ClipBoard!'
-else:
-	print 'Error processing request'
-
+if __name__ == '__main__':
+    main()
