@@ -1,18 +1,20 @@
 import sys
+
 import xerox
+
 
 def main():
     try:
-        plainText = ""
-        if (len(sys.argv) == 1):
-            plainText = raw_input('Enter text -:\n')
+        plaintext = ""
+        if len(sys.argv) == 1:
+            plaintext = raw_input('Enter text -:\n')
         else:
-            plainText = sys.argv[1]
-        	
-        cipherText = plainText.encode('rot13')
-        print cipherText
-        	
-        xerox.copy(cipherText)
+            plaintext = sys.argv[1]
+
+        ciphertext = plaintext.encode('rot13')
+        print ciphertext
+
+        xerox.copy(ciphertext)
         print 'Copied to clipboard!!'
     except Exception as exception:
         print "Error : {exception}".format(exception=exception.message)
